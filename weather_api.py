@@ -79,16 +79,19 @@ def get_forecast_data(lat, lon):
     response_daily_tomorrow = responses_daily[1]
     tomorrow_temp_min = response_daily_tomorrow["temp"]["min"]
     tomorrow_temp_max = response_daily_tomorrow["temp"]["max"]
-    tomorrow_temp_day = response_daily_tomorrow["temp"]["day"]
+    # tomorrow_temp_day = response_daily_tomorrow["temp"]["day"]
     tomorrow_humidity = response_daily_tomorrow["humidity"]
     tomorrow_condition = response_daily_tomorrow["weather"][0]["description"]
     tomorrow_icon = response_daily_tomorrow["weather"][0]["icon"]
     tomorrow_date = convert_timestamp_to_str(response_daily_tomorrow["dt"])
 
+    # I made dictionaries here 'cause
+    # I thought it would be better readable, maybe I was wrong
+
     tomorrow_data = {
         "tomorrow_temp_min": tomorrow_temp_min,
         "tomorrow_temp_max": tomorrow_temp_max,
-        "tomorrow_temp_day": tomorrow_temp_day,
+        # "tomorrow_temp_day": tomorrow_temp_day,
         "tomorrow_humidity": tomorrow_humidity,
         "tomorrow_condition": tomorrow_condition,
         "tomorrow_icon": ICON_TO_EMOJI[tomorrow_icon],
@@ -99,7 +102,7 @@ def get_forecast_data(lat, lon):
     response_daily_after_tomorrow = responses_daily[2]
     after_tomorrow_temp_min = response_daily_after_tomorrow["temp"]["min"]
     after_tomorrow_temp_max = response_daily_after_tomorrow["temp"]["max"]
-    after_tomorrow_temp_day = response_daily_after_tomorrow["temp"]["day"]
+    # after_tomorrow_temp_day = response_daily_after_tomorrow["temp"]["day"]
     after_tomorrow_humidity = response_daily_after_tomorrow["humidity"]
     after_tomorrow_condition = response_daily_after_tomorrow["weather"][0]
     after_tomorrow_condition = after_tomorrow_condition["description"]
@@ -110,7 +113,7 @@ def get_forecast_data(lat, lon):
     after_tomorrow_data = {
         "after_tomorrow_temp_min": after_tomorrow_temp_min,
         "after_tomorrow_temp_max": after_tomorrow_temp_max,
-        "after_tomorrow_temp_day": after_tomorrow_temp_day,
+        # "after_tomorrow_temp_day": after_tomorrow_temp_day,
         "after_tomorrow_humidity": after_tomorrow_humidity,
         "after_tomorrow_condition": after_tomorrow_condition,
         "after_tomorrow_icon": ICON_TO_EMOJI[after_tomorrow_icon],

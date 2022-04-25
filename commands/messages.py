@@ -1,6 +1,5 @@
 from discord.ext import commands
-from weather_api import get_current_data
-from weather_api import get_forecast_data
+from embeds import embed_weather_current, embed_weather_forecast
 
 
 class Messages(commands.Cog):
@@ -9,24 +8,16 @@ class Messages(commands.Cog):
 
     @commands.command(name="clima")
     async def send_current_weather(self, ctx):
-        data = get_current_data(-29.820, -51.158)
-        await ctx.channel.send(data)
+        embed_weather = embed_weather_current(self.bot)
+        await ctx.channel.send(embed=embed_weather)
 
     @commands.command(name="previsao")
     async def send_tomorrow_weather(self, ctx, message):
-        if message == "amanha":
-            data = get_forecast_data(-29.820, -51.158)["tomorrow_data"]
-            await ctx.channel.send(data)
-        elif message == "depois_amanha":
-            data = get_forecast_data(-29.820, -51.158)["after_tomorrow_data"]
-            await ctx.channel.send(data)
+        if message in ["amanha", "depois_amanha"]:
+            embed_weather = embed_weather_forecast(self.bot, message)
+            await ctx.channel.send(embed=embed_weather)
         else:
-            await ctx.channel.send(("""Algo deu errado.
-            Escolha um parâmetro adequado""").replace(" ", ''))
-
-    @commands.command(name="depois_amanha")
-    async def send_after_tomorrow_weather(self, ctx):
-        pass
+            await ctx.channel.send("Parâmetro inválido. !!help para ajuda")
 
 
 def setup(bot):
