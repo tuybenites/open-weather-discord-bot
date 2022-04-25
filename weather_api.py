@@ -127,7 +127,27 @@ def get_forecast_data(lat, lon):
     return full_forecast_data
 
 
+def get_hourly_data(lat, lon, time):
+    match time:
+        case "current":
+            pass
+        case "forecast":
+            pass
+        case _:
+            pass
+
+    forecast_url = BASE_URL + \
+        f"onecall?lat={lat}&lon={lon}&exclue=minutely" + \
+        f"&lang=pt_BR&units=metric&&appid={API_KEY}"
+
+    responses = requests.get(forecast_url).json()
+
+    for response in responses["hourly"]:
+        # print(convert_timestamp_to_str(response["dt"]), response, '\n')
+        pass
+
+
 if __name__ == "__main__":
 
-    print(get_forecast_data(-29.82027550515279, -51.15876160562039))
+    print(get_hourly_data(-29.82027550515279, -51.15876160562039, "current"))
     # print(get_current_data(-29.82027550515279, -51.15876160562039))
