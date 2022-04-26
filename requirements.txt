@@ -1,4 +1,3 @@
 discord
 python-decouple
 datetime
-matplotlib
