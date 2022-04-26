@@ -30,7 +30,7 @@ def embed_weather_current(bot):
 
     embed.add_field(name="Data 📅", value=str(date))
 
-    embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
+    # embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
 
     embed.set_footer(
         text="Dados retirados da API Climatempo"
@@ -74,7 +74,7 @@ def embed_weather_forecast(bot, case):
 
     embed.add_field(name="Data 📅", value=str(date))
 
-    embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
+    # embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
 
     embed.set_footer(
         text="Dados retirados da API Climatempo"
