@@ -20,10 +20,10 @@ def embed_weather_current(bot):
         name=bot.user.name
     )
     embed.add_field(name="Umidade 💧",
-                    value=f" {humidity}%")
+                    value=f" {int(humidity)}%")
 
     embed.add_field(name="Temperatura 🌡️",
-                    value=f" {temperature}° C")
+                    value=f" {int(temperature)}° C")
 
     embed.add_field(name="Condição 📝",
                     value=str(condition))
@@ -61,13 +61,13 @@ def embed_weather_forecast(bot, case):
         name=bot.user.name
     )
     embed.add_field(name="Umidade 💧",
-                    value=f" {humidity}%")
+                    value=f" {int(humidity)}%")
 
     embed.add_field(name="Temperatura Mínima 🌡️",
-                    value=f" {temp_min}° C")
+                    value=f" {int(temp_max)}° C")
 
-    embed.add_field(name="Temperatura Mínima 🌡️",
-                    value=f" {temp_max}° C")
+    embed.add_field(name="Temperatura Máxima 🌡️",
+                    value=f" {int(temp_max)}° C")
 
     embed.add_field(name="Condição 📝",
                     value=str(cond))
