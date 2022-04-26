@@ -64,7 +64,7 @@ def embed_weather_forecast(bot, case):
                     value=f" {int(humidity)}%")
 
     embed.add_field(name="Temperatura Mínima 🌡️",
-                    value=f" {int(temp_max)}° C")
+                    value=f" {int(temp_min)}° C")
 
     embed.add_field(name="Temperatura Máxima 🌡️",
                     value=f" {int(temp_max)}° C")
