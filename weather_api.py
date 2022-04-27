@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 from bot import API_KEY
 
+
 BASE_URL = "https://api.openweathermap.org/data/2.5/"
 
 ICON_TO_EMOJI = {
@@ -39,23 +40,27 @@ def convert_timestamp_to_str(timestamp):
 # the index 0 of the "response_daily" variable
 
 
-def get_current_data(lat, lon):
+def get_current_data(city, state, country):
 
-    current_url = BASE_URL + \
-        f"onecall?lat={lat}&lon={lon}&exclue=hourly,minutely" + \
-        f"&lang=pt_BR&units=metric&&appid={API_KEY}"
+    current_url = BASE_URL + f"weather?q={city},{state},{country}" + \
+        f"&exclue=hourly,minutely&lang=pt_BR&units=metric&&appid={API_KEY}"
 
     response = requests.get(current_url).json()
+    print(response)
 
-    current_response = response["current"]
-    current_temp = current_response["temp"]
-    current_humidity = current_response["humidity"]
-    current_condition = current_response["weather"][0]["description"]
-    current_icon = current_response["weather"][0]["icon"]
-    current_date = convert_timestamp_to_str(response["current"]["dt"])
+    main_response = response["main"]
+    current_temp = main_response["temp"]
+    temp_min = main_response["temp_min"]
+    temp_max = main_response["temp_max"]
+    current_humidity = main_response["humidity"]
+    current_condition = response["weather"][0]["description"]
+    current_icon = response["weather"][0]["icon"]
+    current_date = convert_timestamp_to_str(response["dt"])
 
     current_data = {
         "current_temp": current_temp,
+        "temp_min": temp_min,
+        "temp_max": temp_max,
         "current_humidity": current_humidity,
         "current_condition": current_condition,
         "current_icon": ICON_TO_EMOJI[current_icon],
@@ -65,7 +70,7 @@ def get_current_data(lat, lon):
     return current_data
 
 
-def get_forecast_data(lat, lon):
+def get_forecast_data(lat=-29.82, lon=-51.15):
 
     forecast_url = BASE_URL + \
         f"onecall?lat={lat}&lon={lon}&exclue=hourly,minutely" + \
@@ -149,5 +154,5 @@ def get_hourly_data(lat, lon, time):
 
 if __name__ == "__main__":
 
-    print(get_hourly_data(-29.82027550515279, -51.15876160562039, "current"))
+    print(get_current_data("Sapucaia do Sul", "RS", "BR"))
     # print(get_current_data(-29.82027550515279, -51.15876160562039))

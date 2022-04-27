@@ -7,8 +7,13 @@ class Messages(commands.Cog):
         self.bot = bot
 
     @commands.command(name="clima", help="Não receber parâmetros")
-    async def send_current_weather(self, ctx):
-        embed_weather = embed_weather_current(self.bot)
+    async def send_current_weather(self, ctx,
+                                   state="RS", country="BR",
+                                   *city):
+        state = state.replace(',', '')
+        city = ' '.join(city)
+        embed_weather = embed_weather_current(self.bot,
+                                              city, state, country)
         await ctx.channel.send(embed=embed_weather)
 
     @commands.command(name="previsao", help="""
@@ -19,6 +24,16 @@ class Messages(commands.Cog):
             await ctx.channel.send(embed=embed_weather)
         else:
             await ctx.channel.send("Parâmetro inválido. !!help para ajuda")
+
+    @commands.command(name="RS", help="XXX")
+    async def send_rs_weather(self, ctx, *city):
+        try:
+            city = ' '.join(city)
+            embed = embed_weather_current(self.bot, city, "RS", "BR")
+            await ctx.channel.send(embed=embed)
+        except Exception:
+            await ctx.channel.send(("""Ocorre um erro.
+Digite !!help para obter ajuda"""))
 
 
 def setup(bot):

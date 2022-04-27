@@ -2,14 +2,16 @@ import discord
 from weather_api import get_current_data, get_forecast_data
 
 
-def embed_weather_current(bot):
+def embed_weather_current(bot, city, state, country):
 
-    temperature, humidity, condition, icon, date = get_current_data(
-        -29.820, -51.158).values()
+    data = get_current_data(
+        city, state, country)
+
+    temp, temp_min, temp_max, humidity, condition, icon, date = data.values()
 
     condition = condition.capitalize()
     embed = discord.Embed(
-        title=f"{icon} Clima em Sapucaia do Sul {icon}",
+        title=f"{icon} Clima em {city.capitalize()} {icon}",
         description='''" Prefiro o paraíso pelo clima
         e o inferno pela companhia. "'''.replace('\n', ''),
         color=0x00b0f5,
@@ -19,11 +21,18 @@ def embed_weather_current(bot):
     embed.set_author(
         name=bot.user.name
     )
+
+    embed.add_field(name="Temperatura mínima 🌡️",
+                    value=f" {int(temp_min)}° C")
+
+    embed.add_field(name="Temperatura agora 🌡️",
+                    value=f" {int(temp)}° C")
+
+    embed.add_field(name="Temperatura máxima 🌡️",
+                    value=f" {int(temp_max)}° C")
+
     embed.add_field(name="Umidade 💧",
                     value=f" {int(humidity)}%")
-
-    embed.add_field(name="Temperatura 🌡️",
-                    value=f" {int(temperature)}° C")
 
     embed.add_field(name="Condição 📝",
                     value=str(condition))
@@ -33,7 +42,7 @@ def embed_weather_current(bot):
     # embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
 
     embed.set_footer(
-        text="Dados retirados da API Climatempo"
+        text="Dados retirados da API OpenWeather"
     )
 
     return embed
@@ -77,7 +86,7 @@ def embed_weather_forecast(bot, case):
     # embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
 
     embed.set_footer(
-        text="Dados retirados da API Climatempo"
+        text="Dados retirados da API OpenWeather"
     )
 
     return embed
