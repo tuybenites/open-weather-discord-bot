@@ -1,5 +1,6 @@
 import discord
-from weather_api import get_current_data, get_forecast_data
+from weather_api import get_current_data, get_forecast_data, get_lon_and_lat
+from weather_api import get_hourly_data_graph
 
 
 def embed_weather_current(bot, city, state, country):
@@ -41,11 +42,16 @@ def embed_weather_current(bot, city, state, country):
 
     # embed.set_image(url="https://i.imgur.com/sZx6LgU.png")
 
+    lon, lat = get_lon_and_lat(city, state)
+    get_hourly_data_graph(lat, lon)
+    file = discord.File("temperature_graph.png", filename="graph.png")
+    embed.set_image(url="attachment://graph.png")
+
     embed.set_footer(
         text="Dados retirados da API OpenWeather"
     )
 
-    return embed
+    return embed, file
 
 
 def embed_weather_forecast(bot, case):
