@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
 from bot import API_KEY
-
+import matplotlib.pyplot as plt
 
 BASE_URL = "https://api.openweathermap.org/data/2.5/"
 
@@ -33,6 +33,13 @@ def convert_timestamp_to_str(timestamp):
 
     return date_str
 
+
+def get_hour_timestamp(timestamp):
+    date = datetime.fromtimestamp(timestamp)
+    date_str = datetime.strftime(date, r"%d/%H")
+
+    return date_str
+
 # the forecast function gets the current data
 # bur I created that function before the other one,
 # so I will mantain in that way 'cause I'm lazy
@@ -46,7 +53,6 @@ def get_current_data(city, state, country):
         f"&exclue=hourly,minutely&lang=pt_BR&units=metric&&appid={API_KEY}"
 
     response = requests.get(current_url).json()
-    print(response)
 
     main_response = response["main"]
     current_temp = main_response["temp"]
@@ -132,27 +138,40 @@ def get_forecast_data(lat=-29.82, lon=-51.15):
     return full_forecast_data
 
 
-def get_hourly_data(lat, lon, time):
-    match time:
-        case "current":
-            pass
-        case "forecast":
-            pass
-        case _:
-            pass
-
-    forecast_url = BASE_URL + \
+def get_hourly_data_graph(lat=-29.820, lon=-51.158):
+    full_url = BASE_URL + \
         f"onecall?lat={lat}&lon={lon}&exclue=minutely" + \
         f"&lang=pt_BR&units=metric&&appid={API_KEY}"
 
-    responses = requests.get(forecast_url).json()
-
+    data_x = []
+    data_y = []
+    responses = requests.get(full_url).json()
+    day, _ = get_hour_timestamp(responses["hourly"][0]["dt"]).split('/')
     for response in responses["hourly"]:
-        # print(convert_timestamp_to_str(response["dt"]), response, '\n')
-        pass
+        new_day, new_hour = get_hour_timestamp(response["dt"]).split('/')
+        new_hour = int(new_hour)
+        if day == new_day:
+            data_x.append(new_hour)
+            temp = response["temp"]
+            data_y.append(int(temp))
+
+    x_min = data_x[0] + 0.5
+    x_max = 24 + 0.5
+    plt.xlim(x_min, x_max)
+    plt.grid(True)
+    plt.xlabel("Horário")
+    plt.ylabel("Temperatura em °C")
+    plt.scatter(data_x, data_y)
+    plt.savefig("temperature_graph.png")
+    plt.close()
+
+
+def get_lon_and_lat(city, state) -> tuple:
+    full_url = BASE_URL + f"weather?q={city},{state},BR&&appid={API_KEY}"
+    response = requests.get(full_url).json()
+    lon, lat = response["coord"].values()
+    return lon, lat
 
 
 if __name__ == "__main__":
-
-    print(get_current_data("Sapucaia do Sul", "RS", "BR"))
-    # print(get_current_data(-29.82027550515279, -51.15876160562039))
+    print(get_lon_and_lat("Sapucaia do Sul", "RS"))
