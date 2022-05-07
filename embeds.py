@@ -24,16 +24,16 @@ def embed_weather_current(bot, city, state, country):
     )
 
     embed.add_field(name="Temperatura mínima 🌡️",
-                    value=f" {int(temp_min)}° C")
+                    value=f" {round(temp_min)}° C")
 
     embed.add_field(name="Temperatura agora 🌡️",
-                    value=f" {int(temp)}° C")
+                    value=f" {round(temp)}° C")
 
     embed.add_field(name="Temperatura máxima 🌡️",
-                    value=f" {int(temp_max)}° C")
+                    value=f" {round(temp_max)}° C")
 
     embed.add_field(name="Umidade 💧",
-                    value=f" {int(humidity)}%")
+                    value=f" {round(humidity)}%")
 
     embed.add_field(name="Condição 📝",
                     value=str(condition))
