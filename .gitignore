@@ -1,6 +1,0 @@
-.mypy_cache
-.env
-__pycache__
-todo.txt
-temperature_graph.png
-.gitignore
